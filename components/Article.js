@@ -86,6 +86,13 @@ const data = [
     thirdParagraph: `Hodor hodor - hodor... Hodor hodor hodor hodor. Hodor. Hodor! Hodor hodor, hodor hodor hodor hodor hodor; hodor hodor? Hodor!
           Hodor hodor, HODOR hodor, hodor hodor?! Hodor! Hodor hodor, HODOR hodor, hodor hodor, hodor, hodor hodor. Hodor, hodor.
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
+  },
+  {
+    title: "Tears in Rain",
+    date: "June 25th, 1982",
+    firstParagraph: `I've seen things you people wouldn't believe.`,
+    secondParagraph: ` Attack ships on fire off the shoulder of Orion. I watched C-beams glitter in the dark near the Tannhäuser Gate.`,
+    thirdParagraph: ` All those moments will be lost in time, like tears in rain. Time to die.`
   }
 ];
 
@@ -93,15 +100,6 @@ const data = [
   Step 1: Write a component called 'articleMaker' to create an article.
   Your component is a function that takes an article object as its only argument,
   and returns a DOM node looking like the one below:
-
-  <div class="article">
-    <h2>{title of the article}</h2>
-    <p class="date">{date of the article}</p>
-
-    {three separate paragraph elements}
-
-    <span class="expandButton">+</span>
-  </div>
 
   Step 2: Still inside `articleMaker`, add an event listener to the span.expandButton.
   This listener should toggle the class 'article-open' on div.article.
@@ -114,3 +112,36 @@ const data = [
   Step 5: Try adding new article object to the data array. Make sure it is in the same format as the others.
   Refresh the page to see the new article.
 */
+
+function articleMaker(articleObj) {
+  const articleDiv = document.createElement("div");
+  const articleH2 = document.createElement("h2");
+  articleH2.innerText = articleObj.title;
+  articleDiv.appendChild(articleH2);
+  const articleDate = document.createElement("p");
+  articleDate.innerText = articleObj.date;
+  articleDiv.appendChild(articleDate);
+  const paragraph1 = document.createElement("p");
+  paragraph1.innerText = articleObj.firstParagraph;
+  articleDiv.appendChild(paragraph1);
+  const paragraph2 = document.createElement("p");
+  paragraph2.innerText = articleObj.secondParagraph;
+  articleDiv.appendChild(paragraph2);
+  const paragraph3 = document.createElement("p");
+  paragraph3.innerText = articleObj.thirdParagraph;
+  articleDiv.appendChild(paragraph3);
+  const expandButton = document.createElement("span");
+  expandButton.innerText = "+";
+  expandButton.addEventListener("click", (event) => {
+    event.preventDefault();
+    articleDiv.classList.toggle("article-open");
+  });
+  articleDiv.appendChild(expandButton);
+  return articleDiv;
+}
+const articleWrapper = document.querySelector("div.articles");
+data.map((item) => {
+  const article = articleMaker(item);
+  articleWrapper.appendChild(article);
+});
+console.log(articleWrapper);
